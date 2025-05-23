@@ -2,6 +2,8 @@
 
 namespace JscPhp\Router;
 
+use JetBrains\PhpStorm\NoReturn;
+
 class Router
 {
     private RouterConfig   $config;
@@ -59,6 +61,15 @@ class Router
             method       : $method,
             priority     : $priority,
         );
+    }
+
+    #[NoReturn]
+    public function listRoutes()
+    {
+        echo '<pre>';
+        print_r($this->routeCollection->getRoutes());
+        echo '</pre>';
+        exit();
     }
 
     public function post(string $pattern, string $class, string $method, string $name = '', int $priority = 999): void
@@ -138,6 +149,5 @@ class Router
         }
         return $ret;
     }
-
 
 }

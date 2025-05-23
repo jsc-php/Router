@@ -15,6 +15,7 @@ class Route
         }
     }
 
+
     public function __construct(string $name, string $route, string $class, string $method)
     {
         $this->name = $name;

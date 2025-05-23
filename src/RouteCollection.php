@@ -43,12 +43,22 @@ class RouteCollection
 
     private function processRouteDirectories(): void
     {
-        foreach ($this->config->getClassDirectories() as $directory) {
-            $this->buildRoutesFromDirectory($directory[0], $directory[1]);
-        }
+        $this->buildRoutesFromDirectory();
     }
 
-    public function buildRoutesFromDirectory(string $class_path, ?string $sub_path = null): RouteCollection
+    public function buildRoutesFromDirectory(?string $class_path = null, ?string $sub_path = null): RouteCollection
+    {
+        if (isset($class_path)) {
+            $this->_buildRoutes($class_path, $sub_path);
+        } else {
+            foreach ($this->config->getClassDirectories() as $directory) {
+                $this->_buildRoutes($directory[0], $directory[1]);
+            }
+        }
+        return $this;
+    }
+
+    private function _buildRoutes(string $class_path, ?string $sub_path = null): void
     {
         //Make sure the class path ends with e Directory Separator
         $class_path = DIRECTORY_SEPARATOR . trim($class_path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
@@ -79,7 +89,6 @@ class RouteCollection
                 }
             }
         }
-        return $this;
     }
 
     /**
@@ -103,6 +112,11 @@ class RouteCollection
         $route = new Route($name, $route_pattern, $class, $method);
 
         $this->routes[strtolower($http_method)][$priority][] = $route;
+    }
+
+    public function getRoutes()
+    {
+        return $this->routes;
     }
 
     public function matchRoute(?string $uri = null, array &$matches = []): Route|false

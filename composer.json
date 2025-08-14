@@ -1,18 +1,19 @@
 {
-    "name": "jsc-php/router",
-    "type": "library",
-    "require": {
-        "ext-memcached": "^3.3",
-        "lib-openssl": "^3.2"
-    },
-    "autoload": {
-        "psr-4": {
-            "JscPhp\\Router\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "James Cavaliere"
-        }
-    ]
+  "name": "jsc-php/router",
+  "type": "library",
+  "license": "GPL-3.0-or-later",
+  "require": {
+    "ext-memcached": "^3.3",
+    "lib-openssl": "^3.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "JscPhp\\Router\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "James Cavaliere"
+    }
+  ]
 }

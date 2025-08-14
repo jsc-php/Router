@@ -1,6 +1,6 @@
 # Router Framework
 
-Router is a PHP framework that helps you with routing html requests. It requires no dependencies.
+Router is a PHP framework that helps you with routing html requests.
 
 ## Installation
 

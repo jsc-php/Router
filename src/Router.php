@@ -6,8 +6,8 @@ use JetBrains\PhpStorm\NoReturn;
 
 class Router
 {
-    private RouterConfig   $config;
-    private false|Route    $matched_route = false;
+    private RouterConfig $config;
+    private false|Route $matched_route = false;
     public RouteCollection $routeCollection {
         get {
             return $this->routeCollection;
@@ -26,45 +26,46 @@ class Router
         string $class,
         string $method,
         string $name = '',
-        int $priority =
+        int    $priority =
         999,
-    ): void {
+    ): void
+    {
         $this->routeCollection->routeAdd(
-            http_method  : strtolower($http_method),
-            name         : $name,
+            http_method: strtolower($http_method),
+            name: $name,
             route_pattern: $pattern,
-            class        : $class,
-            method       : $method,
-            priority     : $priority,
+            class: $class,
+            method: $method,
+            priority: $priority,
         );
     }
 
     public function any(string $pattern, string $class, string $method, string $name = '', int $priority = 999): void
     {
         $this->routeCollection->routeAdd(
-            http_method  : 'any',
-            name         : $name,
+            http_method: 'any',
+            name: $name,
             route_pattern: $pattern,
-            class        : $class,
-            method       : $method,
-            priority     : $priority,
+            class: $class,
+            method: $method,
+            priority: $priority,
         );
     }
 
     public function get(string $pattern, string $class, string $method, string $name = '', int $priority = 999): void
     {
         $this->routeCollection->routeAdd(
-            http_method  : 'get',
-            name         : $name,
+            http_method: 'get',
+            name: $name,
             route_pattern: $pattern,
-            class        : $class,
-            method       : $method,
-            priority     : $priority,
+            class: $class,
+            method: $method,
+            priority: $priority,
         );
     }
 
     #[NoReturn]
-    public function listRoutes()
+    public function listRoutes(): void
     {
         echo '<pre>';
         print_r($this->routeCollection->getRoutes());
@@ -75,12 +76,12 @@ class Router
     public function post(string $pattern, string $class, string $method, string $name = '', int $priority = 999): void
     {
         $this->routeCollection->routeAdd(
-            http_method  : 'post',
-            name         : $name,
+            http_method: 'post',
+            name: $name,
             route_pattern: $pattern,
-            class        : $class,
-            method       : $method,
-            priority     : $priority,
+            class: $class,
+            method: $method,
+            priority: $priority,
         );
     }
 
@@ -116,6 +117,19 @@ class Router
 
         call_user_func_array([$c, $method], $route_vars);
         return $route;
+    }
+
+    public function isProtected(?string $uri = null): bool|null
+    {
+        if ($uri === null) {
+            $uri = $_SERVER['REQUEST_URI'];
+        }
+        $matches = [];
+        $route = $this->routeCollection->matchRoute($uri, $matches);;
+        if ($route === false) {
+            return null;
+        }
+        return $route->isProtected();
     }
 
     private function matchRoute(?string $uri = null): false|Route

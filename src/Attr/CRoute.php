@@ -10,7 +10,7 @@ class CRoute
         string $route,
         string $http_method = 'any',
         ?string $name = null,
-        int $priority =
-        0,
+        int $priority =        0,
+        bool $protected = false
     ) {}
 }

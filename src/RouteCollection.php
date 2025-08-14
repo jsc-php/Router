@@ -84,6 +84,7 @@ class RouteCollection
                         $http_method = strtolower($args['http_method'] ?? $args[1] ?? 'any');
                         $name = $args['name'] ?? $args[2] ?? $class . '\\' . $method->getName();
                         $priority = $args['priority'] ?? $args[3] ?? 999;
+                        $protected = $args['protected'] ?? false;
                         $this->routeAdd($http_method, $name, $pattern, $class, $method->getName(), $priority);
                     }
                 }
@@ -92,13 +93,13 @@ class RouteCollection
     }
 
     /**
-     * @param string $http_method   get|post
-     * @param string $name          Route Name
+     * @param string $http_method get|post
+     * @param string $name Route Name
      * @param string $route_pattern Regex pattern to match against URI
-     * @param string $class         Class to be called when the pattern matches
-     * @param string $method        Class method to be called
-     * @param int    $priority      Priority of the route
-     *
+     * @param string $class Class to be called when the pattern matches
+     * @param string $method Class method to be called
+     * @param int $priority Priority of the route
+     * @param bool $protected
      * @return void
      */
     public function routeAdd(
@@ -108,8 +109,9 @@ class RouteCollection
         string $class,
         string $method,
         int $priority = 999,
+        bool $protected = false
     ): void {
-        $route = new Route($name, $route_pattern, $class, $method);
+        $route = new Route($name, $route_pattern, $class, $method, $protected);
 
         $this->routes[strtolower($http_method)][$priority][] = $route;
     }
